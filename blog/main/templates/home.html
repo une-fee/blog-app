@@ -1,0 +1,32 @@
+{% extends 'base.html' %} {% block content %}
+<br>
+<h1>Posts</h1>
+<br>
+<ul style="list-style: none;">
+  {% for post in object_list %}
+
+  <div class="card">
+    <div class="card-body">
+      <li>
+      <h2>
+        <a style="text-decoration: none;" href="{% url 'single_post' post.pk %}">{{post.title}}</a>
+      </h2>
+      <p>
+      By: {{post.author.first_name}} {{post.author.last_name}} -
+      {{post.created}}
+      </p>
+      {% if user.is_authenticated %}
+        {% if post.author.id == user.id %}
+          <small><a href="{% url 'update_post' post.pk %}">(Edit)</a></small>
+          <small><a href="{% url 'delete_post' post.pk %}">(Delete)</a></small>
+        {% endif %}
+      {% endif %}
+      </li>
+    </div>
+  </div>
+  <br>
+
+  {% endfor %}
+</ul>
+
+{% endblock content %}
